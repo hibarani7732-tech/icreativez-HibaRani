@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>MockGenerator | API Response Mock Studio</title>
+  <link rel="stylesheet" href="task1.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="task1.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo-area">
+        <i class="fas fa-code-branch"></i>
+        <h1>MockGen<span>API Response Studio</span></h1>
+      </div>
+      <button id="darkModeToggle" class="icon-btn" aria-label="Dark mode toggle">
+        <i class="fas fa-moon"></i>
+      </button>
+    </header>
+
+    <div class="main-grid">
+      <!-- INPUT CARD -->
+      <div class="card input-card">
+        <div class="card-header">
+          <i class="fas fa-edit"></i>
+          <h3>Request Blueprint</h3>
+          <div class="sample-buttons">
+            <button id="sampleUserBtn" class="sample-tag" title="Load user profile template">👤 User</button>
+            <button id="samplePostsBtn" class="sample-tag" title="Load posts list template">📄 Posts</button>
+            <button id="sampleErrorBtn" class="sample-tag" title="Load error template">⚠️ Error</button>
+          </div>
+        </div>
+        <div class="input-group">
+          <label><i class="fas fa-code"></i> API Structure (JSON)</label>
+          <textarea id="jsonInput" rows="8" placeholder='{\n  "user": {\n    "id": 1001,\n    "name": "Alex Rivera",\n    "email": "alex@example.com"\n  },\n  "active": true\n}' spellcheck="false"></textarea>
+          <div class="validation-msg" id="validationMsg"></div>
+        </div>
+
+        <div class="flex-row">
+          <div class="input-group half">
+            <label><i class="fas fa-globe"></i> HTTP Method</label>
+            <select id="httpMethod">
+              <option>GET</option>
+              <option>POST</option>
+              <option>PUT</option>
+              <option>DELETE</option>
+            </select>
+          </div>
+          <div class="input-group half">
+            <label><i class="fas fa-link"></i> Endpoint URL</label>
+            <input type="text" id="endpointUrl" placeholder="/api/v1/users" value="/api/v1/mock">
+          </div>
+        </div>
+
+        <div class="flex-row">
+          <div class="input-group half">
+            <label><i class="fas fa-tag"></i> Response Type</label>
+            <select id="responseType">
+              <option value="success">✅ Success (200)</option>
+              <option value="error">❌ Error (500)</option>
+              <option value="custom">⚙️ Custom (User defined)</option>
+            </select>
+          </div>
+          <div class="input-group half">
+            <label><i class="fas fa-hourglass-half"></i> Mock Delay</label>
+            <select id="delaySelect">
+              <option value="0">No delay</option>
+              <option value="1000">1s</option>
+              <option value="2000">2s</option>
+              <option value="5000">5s</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="button-cluster">
+          <button id="generateBtn" class="btn primary" data-tooltip="Parse & display mock response"><i class="fas fa-bolt"></i> Generate</button>
+          <button id="randomizeBtn" class="btn secondary" data-tooltip="Replace values with realistic random data"><i class="fas fa-dice-d6"></i> Randomize</button>
+          <button id="validateBtn" class="btn outline" data-tooltip="Check JSON syntax validity"><i class="fas fa-check-circle"></i> Validate</button>
+          <button id="copyBtn" class="btn outline" data-tooltip="Copy response JSON to clipboard"><i class="fas fa-copy"></i> Copy</button>
+          <button id="downloadBtn" class="btn outline" data-tooltip="Save response as .json file"><i class="fas fa-download"></i> Download</button>
+          <button id="clearBtn" class="btn danger-outline" data-tooltip="Reset all fields & clear response"><i class="fas fa-trash-alt"></i> Clear</button>
+        </div>
+
+        <div class="advanced-row">
+          <label class="toggle-switch">
+            <input type="checkbox" id="rawViewToggle">
+            <span class="slider round"></span>
+            <span class="toggle-label">Raw JSON View</span>
+          </label>
+          <div class="history-badge" id="historyBtn">
+            <i class="fas fa-history"></i> History (<span id="historyCount">0</span>)
+            <div class="history-dropdown" id="historyDropdown">
+              <ul id="historyList"></ul>
+              <button id="clearHistoryBtn" class="small-clear">Clear history</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OUTPUT CARD -->
+      <div class="card output-card">
+        <div class="card-header">
+          <i class="fas fa-chart-line"></i>
+          <h3>Mock Response</h3>
+          <div class="status-badge" id="statusBadge">
+            <span id="statusCodeSpan">—</span>
+          </div>
+        </div>
+        <div id="outputContainer" class="output-container">
+          <div id="treeView" class="json-tree-view"></div>
+          <pre id="rawView" class="raw-json hidden"></pre>
+        </div>
+        <div id="spinnerOverlay" class="spinner-overlay hidden">
+          <div class="spinner"></div>
+          <p>Simulating API response...</p>
+        </div>
+        <div class="output-footer">
+          <small><i class="fas fa-code-branch"></i> Collapsible tree view | Status reflects response type</small>
+        </div>
+      </div>
+    </div>
+    <div id="toastContainer" class="toast-container"></div>
+  </div>
+  <script src="task1.js"></script>
+</body>
+</html>
